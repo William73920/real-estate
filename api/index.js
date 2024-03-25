@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoute from "./routes/user.js";
 import authRoute from "./routes/auth.js";
+import listingRouter from "./routes/listing.js";
 import cookieParser from "cookie-parser";
 dotenv.config();
 
@@ -22,6 +23,7 @@ mongoose
 app.use("/api", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
+app.use("/api/listing", listingRouter);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
