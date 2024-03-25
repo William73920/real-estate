@@ -8,6 +8,9 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 import {
+  deleteUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
   updateUserFailure,
   updateUserStart,
   updateUserSuccess,
@@ -88,6 +91,24 @@ const Profile = () => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${user?._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess());
+      setUpdateSuccess(true);
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -157,7 +178,10 @@ const Profile = () => {
       </form>
 
       <div className="flex justify-between items-center mt-5">
-        <span className="text-red-700 hover:underline cursor-pointer">
+        <span
+          className="text-red-700 hover:underline cursor-pointer"
+          onClick={handleDelete}
+        >
           Delete Account
         </span>
         <span className="text-red-700 hover:underline cursor-pointer">
