@@ -23,7 +23,7 @@ mongoose
 app.use("/api", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
-app.use("/api/listing", listingRouter);
+app.use("/api/listings", listingRouter);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
